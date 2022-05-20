@@ -7,6 +7,6 @@ public class WelcomeMessage {
         System.out.println("|          Welcome to ChatBot!          |");
         System.out.println("-----------------------------------------");
         System.out.println();
-        System.out.println("Please ask a question or type 'q' to quit: ");
+        System.out.println("Please type a question or 'q' to quit: ");
     }
 }
