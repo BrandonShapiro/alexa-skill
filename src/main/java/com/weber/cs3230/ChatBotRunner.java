@@ -4,16 +4,23 @@ import java.util.*;
 
 public class ChatBotRunner {
 
-    public static void StartChatting(){
+    public void startChatting(){
         Scanner input = new Scanner(System.in);
-        String question = input.nextLine();
         Map<String, String> responseCache = new HashMap<>();
         Set<String> questionCache = new HashSet<>();
 
+
+        System.out.println("-----------------------------------------");
+        System.out.println("|          Welcome to ChatBot!          |");
+        System.out.println("-----------------------------------------");
+        System.out.println();
+        System.out.println("Please type a question or 'q' to quit: ");
+
+        String question = input.nextLine();
         while(!question.equalsIgnoreCase("q")) {
 
             questionCache.add(question);
-            String response = GenerateResponse(question, responseCache);
+            String response = generateResponse(question, responseCache);
             System.out.println(response);
 
             System.out.println("Ask another question or type 'q' to quit: ");
@@ -23,7 +30,7 @@ public class ChatBotRunner {
         System.out.println(questionCache);
     }
 
-    private static String GenerateResponse(String question, Map<String, String> responseCache){
+    private String generateResponse(String question, Map<String, String> responseCache){
 
         Map<String, List<String>> questionsAndAnswers = new HashMap<>();
 
