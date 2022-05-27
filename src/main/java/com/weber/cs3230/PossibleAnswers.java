@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FindPossibleAnswers {
+public class PossibleAnswers {
 
     public List<String> answers;
     public String lastAnswer;
 
-    public FindPossibleAnswers(List<String> answers, String lastAnswer) {
+    public PossibleAnswers(List<String> answers, String lastAnswer) {
         this.answers = answers;
         this.lastAnswer = lastAnswer;
     }
 
-    public static List<String> possibleAnswers(List<String> allAnswers, String lastAnswer){
+    public static List<String> find(List<String> allAnswers, String lastAnswer){
         List<String> possibleAnswers = new ArrayList<>();
         for(String answer : allAnswers){
             if(!answer.equals(lastAnswer)){
