@@ -10,11 +10,6 @@ public class ChatBotRunner {
         Set<String> questionCache = new HashSet<>();
 
 
-        System.out.println("-----------------------------------------");
-        System.out.println("|          Welcome to ChatBot!          |");
-        System.out.println("-----------------------------------------");
-        System.out.println();
-        System.out.println("Please type a question or 'q' to quit: ");
 
         String question = input.nextLine();
         while(!question.equalsIgnoreCase("q")) {
