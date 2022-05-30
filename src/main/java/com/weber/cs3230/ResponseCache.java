@@ -3,13 +3,13 @@ package com.weber.cs3230;
 import java.util.*;
 
 public class ResponseCache {
-    private static final Map<String, String> cache = new HashMap<>();
+    private static final Map<AlexaIntent, String> cache = new HashMap<>();
 
-    public static String getLastAnswer(String intentName){
+    public static String getLastAnswer(AlexaIntent intentName){
         return ResponseCache.cache.getOrDefault(intentName, "");
     }
-    public static void addToCache(String intentName, String answer) {
-        ResponseCache.cache.put(intentName, answer);
+    public static void addToCache(AlexaIntent alexaIntent, String answer) {
+        ResponseCache.cache.put(alexaIntent, answer);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.weber.cs3230.answergenerators;
 
+import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
 import com.weber.cs3230.PossibleAnswers;
 import com.weber.cs3230.ResponseCache;
@@ -11,7 +12,7 @@ public class BestPlayerAnswer implements AnswerGenerator {
     @Override
     public String getAnswerText() {
         String answer;
-        String previousAnswer = ResponseCache.getLastAnswer("best_player");
+        String previousAnswer = ResponseCache.getLastAnswer(AlexaIntent.BEST_PLAYER);
 
         List<String> answers1 = new ArrayList<>();
         answers1.add("Mohammed Salah");
@@ -20,7 +21,7 @@ public class BestPlayerAnswer implements AnswerGenerator {
 
         List<String> responses = PossibleAnswers.find(answers1, previousAnswer);
         answer = responses.get(0);
-        ResponseCache.addToCache("best_player", answer);
+        ResponseCache.addToCache(AlexaIntent.BEST_PLAYER, answer);
 
         return answer;
     }

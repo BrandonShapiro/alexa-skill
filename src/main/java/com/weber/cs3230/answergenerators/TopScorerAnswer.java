@@ -1,5 +1,6 @@
 package com.weber.cs3230.answergenerators;
 
+import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
 import com.weber.cs3230.PossibleAnswers;
 import com.weber.cs3230.ResponseCache;
@@ -12,7 +13,7 @@ public class TopScorerAnswer implements AnswerGenerator {
     @Override
     public String getAnswerText() {
         String answer;
-        String previousAnswer = ResponseCache.getLastAnswer("top_scorer");
+        String previousAnswer = ResponseCache.getLastAnswer(AlexaIntent.TOP_SCORER);
 
         List<String> answers1 = new ArrayList<>();
         answers1.add("Mohammed Salah was the top scorer.");
@@ -22,7 +23,7 @@ public class TopScorerAnswer implements AnswerGenerator {
         List<String> responses = PossibleAnswers.find(answers1, previousAnswer);
         Collections.shuffle(responses);
         answer = responses.get(0);
-        ResponseCache.addToCache("top_scorer", answer);
+        ResponseCache.addToCache(AlexaIntent.TOP_SCORER, answer);
 
         return answer;
     }

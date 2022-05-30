@@ -1,5 +1,6 @@
 package com.weber.cs3230.answergenerators;
 
+import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
 import com.weber.cs3230.PossibleAnswers;
 import com.weber.cs3230.ResponseCache;
@@ -12,7 +13,7 @@ public class GoalAmountAnswer implements AnswerGenerator {
     @Override
     public String getAnswerText() {
         String answer;
-        String previousAnswer = ResponseCache.getLastAnswer("goal_amount");
+        String previousAnswer = ResponseCache.getLastAnswer(AlexaIntent.GOAL_AMOUNT);
         List<String> answers1 = new ArrayList<>();
         answers1.add("Liverpool scored 139 goals across all competitions.");
         answers1.add("They set their new record high of 139 goals in a single season.");
@@ -21,7 +22,7 @@ public class GoalAmountAnswer implements AnswerGenerator {
         List<String> responses = PossibleAnswers.find(answers1, previousAnswer);
         Collections.shuffle(responses);
         answer = responses.get(0);
-        ResponseCache.addToCache("goal_amount", answer);
+        ResponseCache.addToCache(AlexaIntent.GOAL_AMOUNT, answer);
 
         return answer;
     }

@@ -1,5 +1,6 @@
 package com.weber.cs3230.answergenerators;
 
+import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
 import com.weber.cs3230.PossibleAnswers;
 import com.weber.cs3230.ResponseCache;
@@ -12,7 +13,7 @@ public class TitlesAnswer implements AnswerGenerator {
     @Override
     public String getAnswerText() {
         String answer;
-        String previousAnswer = ResponseCache.getLastAnswer("titles");
+        String previousAnswer = ResponseCache.getLastAnswer(AlexaIntent.TITLES);
 
         List<String> answers1 = new ArrayList<>();
         answers1.add("Liverpool has won the title 19 times.");
@@ -22,7 +23,7 @@ public class TitlesAnswer implements AnswerGenerator {
         List<String> responses = PossibleAnswers.find(answers1, previousAnswer);
         Collections.shuffle(responses);
         answer = responses.get(0);
-        ResponseCache.addToCache("titles", answer);
+        ResponseCache.addToCache(AlexaIntent.TITLES, answer);
 
         return answer;
     }
