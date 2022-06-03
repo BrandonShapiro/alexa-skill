@@ -3,7 +3,6 @@ package com.weber.cs3230.answergenerators;
 import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
 import com.weber.cs3230.PossibleAnswers;
-import com.weber.cs3230.ResponseCache;
 
 import java.util.ArrayList;
 import java.util.Collections;
