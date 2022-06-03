@@ -15,7 +15,6 @@ public class FoundedAnswer extends AnswerGenerator {
 
         return findPossibleAnswers(answers1);
     }
-
     public AlexaIntent getIntent(){
         return AlexaIntent.FOUNDED;
     }

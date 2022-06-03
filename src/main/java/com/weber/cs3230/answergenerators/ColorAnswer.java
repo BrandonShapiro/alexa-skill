@@ -14,7 +14,6 @@ public class ColorAnswer extends AnswerGenerator {
         answers1.add("Liverpool's home color is always Red.");
         return findPossibleAnswers(answers1);
     }
-
     public AlexaIntent getIntent(){
         return AlexaIntent.COLOR;
     }

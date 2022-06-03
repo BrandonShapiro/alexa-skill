@@ -2,11 +2,12 @@ package com.weber.cs3230.answergenerators;
 
 import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
+import com.weber.cs3230.AnswerGeneratorVariables;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class BestPlayerAnswer extends AnswerGenerator {
+public class BestPlayerAnswer extends AnswerGeneratorVariables {
+    @Override
     public String getAnswerText() {
 
         List<String> answers1 = new ArrayList<>();
@@ -15,6 +16,11 @@ public class BestPlayerAnswer extends AnswerGenerator {
         answers1.add("Sadio Mane");
 
         return findPossibleAnswers(answers1);
+    }
+
+    @Override
+    protected List<String> getVariables() {
+        return null;
     }
 
     public AlexaIntent getIntent(){

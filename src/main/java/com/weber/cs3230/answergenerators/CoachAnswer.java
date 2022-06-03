@@ -2,7 +2,6 @@ package com.weber.cs3230.answergenerators;
 
 import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
-
 import java.util.*;
 
 public class CoachAnswer extends AnswerGenerator {
@@ -16,7 +15,6 @@ public class CoachAnswer extends AnswerGenerator {
 
         return findPossibleAnswers(answers1);
     }
-
     public AlexaIntent getIntent(){
         return AlexaIntent.COACH;
     }
