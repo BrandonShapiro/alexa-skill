@@ -1,29 +1,29 @@
 package com.weber.cs3230.answergenerators;
 
+import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
-import com.weber.cs3230.PossibleAnswers;
-import com.weber.cs3230.ResponseCache;
+import com.weber.cs3230.AnswerGeneratorVariables;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public class TitlesAnswer implements AnswerGenerator {
+public class TitlesAnswer extends AnswerGeneratorVariables {
     @Override
     public String getAnswerText() {
-        String answer;
-        String previousAnswer = ResponseCache.getLastAnswer("titles");
 
         List<String> answers1 = new ArrayList<>();
         answers1.add("Liverpool has won the title 19 times.");
         answers1.add("Liverpool have achieved 19 league titles.");
         answers1.add("With their most recent win in 2019, Liverpool have won the league 19 times.");
 
-        List<String> responses = PossibleAnswers.find(answers1, previousAnswer);
-        Collections.shuffle(responses);
-        answer = responses.get(0);
-        ResponseCache.addToCache("titles", answer);
+        return findPossibleAnswers(answers1);
+    }
 
-        return answer;
+    @Override
+    protected List<String> getVariables() {
+        return null;
+    }
+
+    public AlexaIntent getIntent(){
+        return AlexaIntent.TITLES;
     }
 }
