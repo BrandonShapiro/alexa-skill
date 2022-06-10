@@ -1,6 +1,7 @@
 package com.weber.cs3230;
 
 import com.weber.cs3230.answergenerators.*;
+import java.util.Arrays;
 
 public enum AlexaIntent {
     BEST_TEAM("best_team", new TeamAnswer()),
@@ -15,7 +16,6 @@ public enum AlexaIntent {
     FOUNDED("founded", new FoundedAnswer());
 
 
-
     private final String intentName;
     private final AnswerGenerator answerGenerator;
 
@@ -24,15 +24,14 @@ public enum AlexaIntent {
         this.answerGenerator = answerGenerator;
     }
 
-    public AnswerGenerator getAnswerGenerator(){
+    public AnswerGenerator getAnswerGenerator() {
         return answerGenerator;
     }
+
     public static AlexaIntent getIntentFromString(String intentString) {
-        for (AlexaIntent alexaIntent : AlexaIntent.values()) {
-            if (alexaIntent.intentName.equalsIgnoreCase(intentString)) {
-                return alexaIntent;
-            }
-        }
-        return null;
+        return Arrays.stream(AlexaIntent.values())
+                .filter(intent -> intentString.equalsIgnoreCase(intent.intentName))
+                .findFirst()
+                .orElse(null);
     }
 }
