@@ -8,22 +8,16 @@ import java.util.*;
 
 public class TitlesAnswer extends AnswerGeneratorVariables {
     @Override
-    public String getAnswerText() {
-
-        List<String> answers1 = new ArrayList<>();
-        answers1.add("Liverpool has won the title 19 times.");
-        answers1.add("Liverpool have achieved 19 league titles.");
-        answers1.add("With their most recent win in 2019, Liverpool have won the league 19 times.");
-
-        return findPossibleAnswers(answers1);
+    protected List<String> getPossibleAnswers() {
+        List<String> answers = new ArrayList<>();
+        answers.add("Liverpool has won the title 19 times.");
+        answers.add("Liverpool have achieved 19 league titles.");
+        answers.add("With their most recent win in 2019, Liverpool have won the league 19 times.");
+        return answers;
     }
-
     @Override
-    protected List<String> getVariables() {
-        return null;
-    }
-
-    public AlexaIntent getIntent(){
-        return AlexaIntent.TITLES;
-    }
+    public String getAnswerText() {return findAnswer();}
+    @Override
+    protected List<String> getVariables() {return null;}
+    public AlexaIntent getIntent(){return AlexaIntent.TITLES;}
 }

@@ -6,16 +6,14 @@ import java.util.*;
 
 public class RivalAnswer extends AnswerGenerator {
     @Override
-    public String getAnswerText() {
-
-        List<String> answers1 = new ArrayList<>();
-        answers1.add("Everton is Liverpool's biggest rival.");
-        answers1.add("The rivalry between Liverpool and Everton is unmatched.");
-        answers1.add("Everton, who also reside in Merseyside, are Liverpool's rival.");
-
-        return findPossibleAnswers(answers1);
+    protected List<String> getPossibleAnswers() {
+        List<String> answers = new ArrayList<>();
+        answers.add("Everton is Liverpool's biggest rival.");
+        answers.add("The rivalry between Liverpool and Everton is unmatched.");
+        answers.add("Everton, who also reside in Merseyside, are Liverpool's rival.");
+        return answers;
     }
-    public AlexaIntent getIntent(){
-        return AlexaIntent.RIVAL;
-    }
+    @Override
+    public String getAnswerText() {return findAnswer();}
+    public AlexaIntent getIntent(){return AlexaIntent.RIVAL;}
 }

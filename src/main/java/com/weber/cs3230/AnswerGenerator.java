@@ -5,10 +5,11 @@ import java.util.*;
 public abstract class AnswerGenerator {
     abstract protected String getAnswerText();
     abstract protected AlexaIntent getIntent();
+    abstract protected List<String> getPossibleAnswers();
 
-    public String findPossibleAnswers(List<String> allAnswers){
+    public String findAnswer(){
         List<String> possibleAnswers = new ArrayList<>();
-        for(String answer : allAnswers){
+        for(String answer : getPossibleAnswers()){
             if(!answer.equals(getLastAnswer(getIntent()))){
                 possibleAnswers.add(answer);
             }

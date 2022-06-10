@@ -6,16 +6,14 @@ import java.util.*;
 
 public class TopScorerAnswer extends AnswerGenerator {
     @Override
-    public String getAnswerText() {
-
-        List<String> answers1 = new ArrayList<>();
-        answers1.add("Mohammed Salah was the top scorer.");
-        answers1.add("Mo Salah scored 22 goals.");
-        answers1.add("Salah had the most with 22 goals.");
-
-        return findPossibleAnswers(answers1);
+    protected List<String> getPossibleAnswers() {
+        List<String> answers = new ArrayList<>();
+        answers.add("Mohammed Salah was the top scorer.");
+        answers.add("Mo Salah scored 22 goals.");
+        answers.add("Salah had the most with 22 goals.");
+        return answers;
     }
-    public AlexaIntent getIntent(){
-        return AlexaIntent.TOP_SCORER;
-    }
+    @Override
+    public String getAnswerText() {return findAnswer();}
+    public AlexaIntent getIntent(){return AlexaIntent.TOP_SCORER;}
 }

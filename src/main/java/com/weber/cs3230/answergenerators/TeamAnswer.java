@@ -6,15 +6,14 @@ import java.util.*;
 
 public class TeamAnswer extends AnswerGenerator {
     @Override
-    public String getAnswerText() {
-
-        List<String> answers1 = new ArrayList<>();
-        answers1.add("Liverpool FC are the top team.");
-        answers1.add("The best team is Liverpool!");
-        answers1.add("Liverpool of course!");
-        return findPossibleAnswers(answers1);
+    protected List<String> getPossibleAnswers() {
+        List<String> answers = new ArrayList<>();
+        answers.add("Liverpool FC are the top team.");
+        answers.add("The best team is Liverpool!");
+        answers.add("Liverpool of course!");
+        return answers;
     }
-    public AlexaIntent getIntent(){
-        return AlexaIntent.BEST_TEAM;
-    }
+    @Override
+    public String getAnswerText() {return findAnswer();}
+    public AlexaIntent getIntent(){return AlexaIntent.BEST_TEAM;}
 }

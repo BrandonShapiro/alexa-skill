@@ -6,17 +6,16 @@ import java.util.*;
 
 public class FoundedAnswer extends AnswerGenerator {
     @Override
-    public String getAnswerText() {
-
-        List<String> answers1 = new ArrayList<>();
-        answers1.add("LFC was founded on June 3, 1892.");
-        answers1.add("June 3, 1892");
-        answers1.add("Liverpool was founded in 1892 on June 3rd.");
-
-        return findPossibleAnswers(answers1);
+    protected List<String> getPossibleAnswers() {
+        List<String> answers = new ArrayList<>();
+        answers.add("LFC was founded on June 3, 1892.");
+        answers.add("June 3, 1892");
+        answers.add("Liverpool was founded in 1892 on June 3rd.");
+        return answers;
     }
-    public AlexaIntent getIntent(){
-        return AlexaIntent.FOUNDED;
-    }
+
+    @Override
+    public String getAnswerText() {return findAnswer();}
+    public AlexaIntent getIntent(){return AlexaIntent.FOUNDED;}
 }
 

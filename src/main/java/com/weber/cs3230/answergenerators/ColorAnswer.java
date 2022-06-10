@@ -6,16 +6,17 @@ import java.util.*;
 
 public class ColorAnswer extends AnswerGenerator {
     @Override
-    public String getAnswerText() {
+    protected List<String> getPossibleAnswers() {
+        List<String> answers = new ArrayList<>();
+        answers.add("Liverpool's main color is Red.");
+        answers.add("Their colors are Red, Green, and Gold.");
+        answers.add("Liverpool's home color is always Red.");
 
-        List<String> answers1 = new ArrayList<>();
-        answers1.add("Liverpool's main color is Red.");
-        answers1.add("Their colors are Red, Green, and Gold.");
-        answers1.add("Liverpool's home color is always Red.");
-        return findPossibleAnswers(answers1);
+        return answers;
     }
-    public AlexaIntent getIntent(){
-        return AlexaIntent.COLOR;
-    }
+
+    @Override
+    public String getAnswerText() {return findAnswer();}
+    public AlexaIntent getIntent(){return AlexaIntent.COLOR;}
 }
 

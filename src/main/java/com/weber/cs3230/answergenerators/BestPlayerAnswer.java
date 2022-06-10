@@ -8,22 +8,14 @@ import java.util.*;
 
 public class BestPlayerAnswer extends AnswerGeneratorVariables {
     @Override
-    public String getAnswerText() {
-
-        List<String> answers1 = new ArrayList<>();
-        answers1.add("Mohammed Salah");
-        answers1.add("Trent Alexander Arnold");
-        answers1.add("Sadio Mane");
-
-        return findPossibleAnswers(answers1);
+    protected List<String> getPossibleAnswers() {
+        List<String> answers = new ArrayList<>();
+        answers.add("Mohammed Salah");
+        answers.add("Trent Alexander Arnold");
+        answers.add("Sadio Mane");;
+        return answers;
     }
-
-    @Override
-    protected List<String> getVariables() {
-        return null;
-    }
-
-    public AlexaIntent getIntent(){
-        return AlexaIntent.BEST_PLAYER;
-    }
+    @Override public String getAnswerText() {return super.findAnswer();}
+    @Override protected List<String> getVariables() {return null;}
+    public AlexaIntent getIntent(){return AlexaIntent.BEST_PLAYER;}
 }
