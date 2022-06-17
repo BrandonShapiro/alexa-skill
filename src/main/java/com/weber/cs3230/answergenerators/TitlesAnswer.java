@@ -20,4 +20,6 @@ public class TitlesAnswer extends AnswerGeneratorVariables {
     @Override
     protected List<String> getVariables() {return null;}
     public AlexaIntent getIntent(){return AlexaIntent.TITLES;}
+    @Override
+    protected String getEventName() {return "Titles_Asked";}
 }

@@ -18,5 +18,7 @@ public class ColorAnswer extends AnswerGenerator {
     @Override
     public String getAnswerText() {return findAnswer();}
     public AlexaIntent getIntent(){return AlexaIntent.COLOR;}
+    @Override
+    protected String getEventName() {return "Color_Asked";}
 }
 

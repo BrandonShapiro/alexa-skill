@@ -16,4 +16,6 @@ public class TeamAnswer extends AnswerGenerator {
     @Override
     public String getAnswerText() {return findAnswer();}
     public AlexaIntent getIntent(){return AlexaIntent.BEST_TEAM;}
+    @Override
+    protected String getEventName() {return "Best_Team_Asked";}
 }

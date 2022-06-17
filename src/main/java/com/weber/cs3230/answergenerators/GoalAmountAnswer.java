@@ -16,5 +16,7 @@ public class GoalAmountAnswer extends AnswerGenerator {
     @Override
     public String getAnswerText() {return findAnswer();}
     public AlexaIntent getIntent(){return AlexaIntent.GOAL_AMOUNT;}
+    @Override
+    protected String getEventName() {return "Goal_Amount_Asked";}
 }
 

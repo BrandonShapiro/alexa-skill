@@ -16,4 +16,6 @@ public class RivalAnswer extends AnswerGenerator {
     @Override
     public String getAnswerText() {return findAnswer();}
     public AlexaIntent getIntent(){return AlexaIntent.RIVAL;}
+    @Override
+    protected String getEventName() {return "Rival_Asked";}
 }

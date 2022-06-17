@@ -16,4 +16,6 @@ public class TopScorerAnswer extends AnswerGenerator {
     @Override
     public String getAnswerText() {return findAnswer();}
     public AlexaIntent getIntent(){return AlexaIntent.TOP_SCORER;}
+    @Override
+    protected String getEventName() {return "Top_Scorer_Asked";}
 }

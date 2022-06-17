@@ -18,5 +18,7 @@ public class CoachAnswer extends AnswerGenerator {
     public AlexaIntent getIntent(){
         return AlexaIntent.COACH;
     }
+    @Override
+    protected String getEventName() {return "Coach_Asked";}
 }
 

@@ -17,5 +17,7 @@ public class FoundedAnswer extends AnswerGenerator {
     @Override
     public String getAnswerText() {return findAnswer();}
     public AlexaIntent getIntent(){return AlexaIntent.FOUNDED;}
+    @Override
+    protected String getEventName() {return "Founded_Asked";}
 }
 

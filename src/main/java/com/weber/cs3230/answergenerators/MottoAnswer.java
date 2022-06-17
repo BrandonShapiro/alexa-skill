@@ -17,4 +17,6 @@ public class MottoAnswer extends AnswerGenerator {
     @Override
     public String getAnswerText() {return findAnswer();}
     public AlexaIntent getIntent(){return AlexaIntent.MOTTO;}
+    @Override
+    protected String getEventName() {return "Motto_Asked";}
 }
