@@ -10,6 +10,7 @@ public class MetricsRecorder {
         metric.setEventName(eventName);
         metric.setAppName("brandon_alexa_app");
         final String json = new Gson().toJson(metric);
-        Metric returnedMetric = new HttpCommunicator().communicate(HttpMethod.POST, "", json, Metric.class);
+        final String urlString = "https://alexa-ghost.herokuapp.com/metric";
+        Metric returnedMetric = new HttpCommunicator().communicate(HttpMethod.POST, urlString, json, Metric.class);
     }
 }
