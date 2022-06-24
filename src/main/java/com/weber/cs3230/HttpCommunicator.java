@@ -44,7 +44,7 @@ public class HttpCommunicator {
             }
 
             final String response = inputStreamToString(inputStream);
-            return new Gson().fromJson(payload, clazz);
+            return new Gson().fromJson(response, clazz);
         } catch (Exception e) {
             throw new RuntimeException("Failed to run communication for " + urlString + " " + method, e);
         }
