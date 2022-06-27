@@ -2,6 +2,8 @@ package com.weber.cs3230.answergenerators;
 
 import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
+import com.weber.cs3230.NoAvailableAnswerException;
+
 import java.util.*;
 
 public class ColorAnswer extends AnswerGenerator {
@@ -16,7 +18,7 @@ public class ColorAnswer extends AnswerGenerator {
     }
 
     @Override
-    public String getAnswerText() {return findAnswer();}
+    public String getAnswerText() throws NoAvailableAnswerException {return findAnswer();}
     public AlexaIntent getIntent(){return AlexaIntent.COLOR;}
     @Override
     protected String getEventName() {return "Color_Asked";}

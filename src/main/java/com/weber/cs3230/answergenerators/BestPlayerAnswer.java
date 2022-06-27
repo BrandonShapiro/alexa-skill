@@ -1,9 +1,6 @@
 package com.weber.cs3230.answergenerators;
 
-import com.weber.cs3230.AlexaIntent;
-import com.weber.cs3230.AnswerGenerator;
-import com.weber.cs3230.AnswerGeneratorVariables;
-import com.weber.cs3230.MetricsRecorder;
+import com.weber.cs3230.*;
 
 import java.util.*;
 
@@ -16,7 +13,7 @@ public class BestPlayerAnswer extends AnswerGeneratorVariables {
         answers.add("Sadio Mane");;
         return answers;
     }
-    @Override public String getAnswerText() {return findAnswer();}
+    @Override public String getAnswerText() throws NoAvailableAnswerException {return findAnswer();}
     @Override protected List<String> getVariables() {return null;}
     public AlexaIntent getIntent(){return AlexaIntent.BEST_PLAYER;}
     @Override

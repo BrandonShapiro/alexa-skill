@@ -2,6 +2,8 @@ package com.weber.cs3230.answergenerators;
 
 import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
+import com.weber.cs3230.NoAvailableAnswerException;
+
 import java.util.*;
 
 public class CoachAnswer extends AnswerGenerator {
@@ -14,7 +16,7 @@ public class CoachAnswer extends AnswerGenerator {
         return answers;
     }
 
-    @Override public String getAnswerText() { return findAnswer();}
+    @Override public String getAnswerText() throws NoAvailableAnswerException { return findAnswer();}
     public AlexaIntent getIntent(){
         return AlexaIntent.COACH;
     }

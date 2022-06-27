@@ -24,6 +24,10 @@ public enum AlexaIntent {
         this.answerGenerator = answerGenerator;
     }
 
+    public String getIntentName() {
+        return intentName;
+    }
+
     public AnswerGenerator getAnswerGenerator() {
         return answerGenerator;
     }

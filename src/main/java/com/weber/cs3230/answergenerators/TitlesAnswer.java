@@ -3,6 +3,7 @@ package com.weber.cs3230.answergenerators;
 import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
 import com.weber.cs3230.AnswerGeneratorVariables;
+import com.weber.cs3230.NoAvailableAnswerException;
 
 import java.util.*;
 
@@ -16,7 +17,7 @@ public class TitlesAnswer extends AnswerGeneratorVariables {
         return answers;
     }
     @Override
-    public String getAnswerText() {return findAnswer();}
+    public String getAnswerText() throws NoAvailableAnswerException {return findAnswer();}
     @Override
     protected List<String> getVariables() {return null;}
     public AlexaIntent getIntent(){return AlexaIntent.TITLES;}

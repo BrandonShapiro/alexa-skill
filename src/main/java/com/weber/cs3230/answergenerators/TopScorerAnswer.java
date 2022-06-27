@@ -2,6 +2,8 @@ package com.weber.cs3230.answergenerators;
 
 import com.weber.cs3230.AlexaIntent;
 import com.weber.cs3230.AnswerGenerator;
+import com.weber.cs3230.NoAvailableAnswerException;
+
 import java.util.*;
 
 public class TopScorerAnswer extends AnswerGenerator {
@@ -14,7 +16,7 @@ public class TopScorerAnswer extends AnswerGenerator {
         return answers;
     }
     @Override
-    public String getAnswerText() {return findAnswer();}
+    public String getAnswerText() throws NoAvailableAnswerException {return findAnswer();}
     public AlexaIntent getIntent(){return AlexaIntent.TOP_SCORER;}
     @Override
     protected String getEventName() {return "Top_Scorer_Asked";}
