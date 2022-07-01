@@ -11,9 +11,15 @@ public class AlexaIntentHandler {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     public Answer handleIntent(@PathVariable String intentString) throws NoAvailableAnswerException {
         AlexaIntent intent = AlexaIntent.getIntentFromString(intentString);
-        AnswerGenerator answerGenerator = intent.getAnswerGenerator();
-        log.info("generated new intent: " + intent.getIntentName());
-        return new Answer(answerGenerator.getAnswerText());
 
+        if(intent != null) {
+            AnswerGenerator answerGenerator = intent.getAnswerGenerator();
+            log.info("generated new intent: " + intent.getIntentName());
+            return new Answer(answerGenerator.findAnswer(intent));
+        }
+        else{
+            log.info("generated null intent");
+            return null;
+        }
     }
 }

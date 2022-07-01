@@ -13,9 +13,7 @@ public class BestPlayerAnswer extends AnswerGeneratorVariables {
         answers.add("Sadio Mane");;
         return answers;
     }
-    @Override public String getAnswerText() throws NoAvailableAnswerException {return findAnswer();}
     @Override protected List<String> getVariables() {return null;}
-    public AlexaIntent getIntent(){return AlexaIntent.BEST_PLAYER;}
     @Override
     protected String getEventName() {return "Best_Player_Asked";}
 }

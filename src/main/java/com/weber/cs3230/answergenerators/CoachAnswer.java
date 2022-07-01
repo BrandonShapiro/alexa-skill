@@ -16,7 +16,6 @@ public class CoachAnswer extends AnswerGenerator {
         return answers;
     }
 
-    @Override public String getAnswerText() throws NoAvailableAnswerException { return findAnswer();}
     public AlexaIntent getIntent(){
         return AlexaIntent.COACH;
     }

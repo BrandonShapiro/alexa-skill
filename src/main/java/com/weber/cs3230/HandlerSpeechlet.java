@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HandlerSpeechlet implements SpeechletV2 {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    AlexaUtils alexaUtils = new AlexaUtils("Ask another question about LFC!");
+    private final AlexaUtils alexaUtils = new AlexaUtils("Ask another question about LFC!");
     private final AlexaIntentHandler alexaIntentHandler;
     @Autowired
     public HandlerSpeechlet(AlexaIntentHandler alexaIntentHandler) {this.alexaIntentHandler = alexaIntentHandler;}
