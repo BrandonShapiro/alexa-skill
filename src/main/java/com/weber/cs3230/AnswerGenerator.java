@@ -3,13 +3,13 @@ package com.weber.cs3230;
 import java.util.*;
 
 public abstract class AnswerGenerator {
-    abstract protected List<String> getPossibleAnswers();
+    abstract protected List<String> getPossibleAnswers(String intent);
     private final MetricsRecorder mr = new MetricsRecorder();
 
     public String findAnswer(AlexaIntent alexaIntent) throws NoAvailableAnswerException {
         List<String> possibleAnswers = new ArrayList<>();
-        if(getPossibleAnswers().size() > 1) {
-            for (String answer : getPossibleAnswers()) {
+        if(getPossibleAnswers(alexaIntent.getIntentName()).size() > 1) {
+            for (String answer : getPossibleAnswers(alexaIntent.getIntentName())) {
                 if (!answer.equals(getLastAnswer(alexaIntent))) {
                     possibleAnswers.add(answer);
                 }

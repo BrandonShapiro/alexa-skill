@@ -12,16 +12,11 @@ import java.util.List;
 public class AlexaDAO {
 
     private final String alexaAppID;
-    @Value("${db.host}")
-    private String dbHost;
-    @Value("${db.port}")
-    private String dbPort;
-    @Value("${db.name}")
-    private String dbName;
-    @Value("${db.user}")
-    private String dbUser;
-    @Value("${db.password}")
-    private String dbPassword;
+    @Value("${db.host}") private String dbHost;
+    @Value("${db.port}") private String dbPort;
+    @Value("${db.name}") private String dbName;
+    @Value("${db.user}") private String dbUser;
+    @Value("${db.password}") private String dbPassword;
 
     public AlexaDAO() {
         this.alexaAppID = "cs323098789878987";
