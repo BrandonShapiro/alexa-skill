@@ -15,8 +15,4 @@ public class TopScorerAnswer extends AnswerGenerator {
         answers.add("Salah had the most with 22 goals.");
         return answers;
     }
-
-    public AlexaIntent getIntent(){return AlexaIntent.TOP_SCORER;}
-    @Override
-    protected String getEventName() {return "Top_Scorer_Asked";}
 }

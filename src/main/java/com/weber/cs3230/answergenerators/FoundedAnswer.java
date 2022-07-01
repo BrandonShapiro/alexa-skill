@@ -15,9 +15,5 @@ public class FoundedAnswer extends AnswerGenerator {
         answers.add("Liverpool was founded in 1892 on June 3rd.");
         return answers;
     }
-
-    public AlexaIntent getIntent(){return AlexaIntent.FOUNDED;}
-    @Override
-    protected String getEventName() {return "Founded_Asked";}
 }
 

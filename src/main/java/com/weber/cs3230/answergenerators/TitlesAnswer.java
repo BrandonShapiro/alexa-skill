@@ -16,10 +16,6 @@ public class TitlesAnswer extends AnswerGeneratorVariables {
         answers.add("With their most recent win in 2019, Liverpool have won the league 19 times.");
         return answers;
     }
-
     @Override
     protected List<String> getVariables() {return null;}
-    public AlexaIntent getIntent(){return AlexaIntent.TITLES;}
-    @Override
-    protected String getEventName() {return "Titles_Asked";}
 }

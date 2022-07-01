@@ -15,8 +15,4 @@ public class TeamAnswer extends AnswerGenerator {
         answers.add("Liverpool of course!");
         return answers;
     }
-
-    public AlexaIntent getIntent(){return AlexaIntent.BEST_TEAM;}
-    @Override
-    protected String getEventName() {return "Best_Team_Asked";}
 }

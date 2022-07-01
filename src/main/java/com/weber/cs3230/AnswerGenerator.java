@@ -4,7 +4,6 @@ import java.util.*;
 
 public abstract class AnswerGenerator {
     abstract protected List<String> getPossibleAnswers();
-    abstract protected String getEventName();
     private final MetricsRecorder mr = new MetricsRecorder();
 
     public String findAnswer(AlexaIntent alexaIntent) throws NoAvailableAnswerException {
@@ -15,10 +14,15 @@ public abstract class AnswerGenerator {
                     possibleAnswers.add(answer);
                 }
             }
-            Collections.shuffle(possibleAnswers);
+            if(possibleAnswers.size() == 0){
+                throw new NoAvailableAnswerException(alexaIntent);
+            }
+            else {
+                Collections.shuffle(possibleAnswers);
+            }
         }
         addToCache(alexaIntent, possibleAnswers.get(0));
-        mr.saveMetric("\"" + possibleAnswers.get(0) + "\" given as answer for " + getEventName());
+        mr.saveMetric("\"" + possibleAnswers.get(0) + "\" given as answer for " + alexaIntent.getIntentName());
         return possibleAnswers.get(0);
     }
 

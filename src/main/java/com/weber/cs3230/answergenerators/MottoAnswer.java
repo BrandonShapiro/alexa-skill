@@ -15,8 +15,4 @@ public class MottoAnswer extends AnswerGenerator {
         answers.add("You'll Never Walk Alone was adopted as their motto prior to 1982.");
         return answers;
     }
-
-    public AlexaIntent getIntent(){return AlexaIntent.MOTTO;}
-    @Override
-    protected String getEventName() {return "Motto_Asked";}
 }

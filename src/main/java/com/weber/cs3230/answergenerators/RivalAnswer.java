@@ -15,8 +15,4 @@ public class RivalAnswer extends AnswerGenerator {
         answers.add("Everton, who also reside in Merseyside, are Liverpool's rival.");
         return answers;
     }
-
-    public AlexaIntent getIntent(){return AlexaIntent.RIVAL;}
-    @Override
-    protected String getEventName() {return "Rival_Asked";}
 }

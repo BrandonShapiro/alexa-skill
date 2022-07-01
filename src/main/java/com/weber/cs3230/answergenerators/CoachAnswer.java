@@ -15,11 +15,5 @@ public class CoachAnswer extends AnswerGenerator {
         answers.add("Liverpool's coach is a german named Jurgen Klopp.");
         return answers;
     }
-
-    public AlexaIntent getIntent(){
-        return AlexaIntent.COACH;
-    }
-    @Override
-    protected String getEventName() {return "Coach_Asked";}
 }
 

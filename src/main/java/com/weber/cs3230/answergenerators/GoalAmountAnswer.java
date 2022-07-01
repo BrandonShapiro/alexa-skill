@@ -15,9 +15,5 @@ public class GoalAmountAnswer extends AnswerGenerator {
         answers.add("139 goals were scored by Liverpool this year.");
         return answers;
     }
-
-    public AlexaIntent getIntent(){return AlexaIntent.GOAL_AMOUNT;}
-    @Override
-    protected String getEventName() {return "Goal_Amount_Asked";}
 }
 
