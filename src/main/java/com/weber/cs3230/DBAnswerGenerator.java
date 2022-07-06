@@ -7,7 +7,7 @@ import java.util.List;
 
 @Component
 public class DBAnswerGenerator extends AnswerGenerator {
-    private final AlexaDAO alexaDAO;
+    public final AlexaDAO alexaDAO;
     @Autowired
     DBAnswerGenerator(AlexaDAO alexaDAO){
         this.alexaDAO = alexaDAO;
