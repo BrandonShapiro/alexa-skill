@@ -54,8 +54,13 @@ public class AlexaAdminApp {
         JPanel buttonPanel = new JPanel(new GridLayout(1, 3));
 
         JButton addRowButton = new JButton("Add New Intent");
+        //addRowButton.addActionListener();
+
         JButton deleteRowButton = new JButton("Delete Intent");
+        //deleteRowButton.addActionListener();
+
         JButton editRowButton = new JButton("Edit Intent");
+        //editRowButton.addActionListener();
 
         buttonPanel.add(addRowButton);
         buttonPanel.add(editRowButton);
