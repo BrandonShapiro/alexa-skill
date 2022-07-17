@@ -1,16 +1,19 @@
 package com.weber.cs3230.adminapp;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 
 public class AlexaAdminApp {
 
     public static void main(String[] args) {
 
         SwingUtilities.invokeLater(() -> {
-            AlexaAdminFrame mainFrame = new AlexaAdminFrame();
-            mainFrame.setVisible(true);
+            LoginDialog loginDialog = new LoginDialog();
+            loginDialog.setVisible(true);
+
+            if(loginDialog.isAuthenticated()) {
+                AlexaAdminFrame mainFrame = new AlexaAdminFrame();
+                mainFrame.setVisible(true);
+            }
         });
     }
 }
