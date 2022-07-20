@@ -52,7 +52,7 @@ public class AddEditDialog extends JDialog {
         return addEditPanel;
     }
 
-    public void closeDialog(){
+    private void closeDialog(){
         setVisible(false);
         dispose();
     }

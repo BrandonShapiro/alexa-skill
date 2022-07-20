@@ -11,7 +11,7 @@ public class LoginDialog extends JDialog {
         return authenticated;
     }
 
-    public void closeDialog(){
+    private void closeDialog(){
         setVisible(false);
         dispose();
     }
