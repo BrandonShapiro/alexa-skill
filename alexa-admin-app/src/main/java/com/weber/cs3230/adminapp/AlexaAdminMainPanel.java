@@ -12,7 +12,7 @@ public class AlexaAdminMainPanel extends JPanel {
     private JTable table;
     private DefaultTableModel model;
     private final java.util.List<Intent> intentList = new ArrayList<>();
-    private final String[] columnNames = {"Intent", "Date Added"};
+    private final String[] columnNames = {"Intent Name", "Date Added"};
 
     AlexaAdminMainPanel() {
         super.setLayout(new BorderLayout());
