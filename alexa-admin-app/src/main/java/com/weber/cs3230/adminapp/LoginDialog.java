@@ -48,15 +48,13 @@ public class LoginDialog extends JDialog {
         JPasswordField passwordField = new JPasswordField();
         loginPanel.add(passwordField);
 
-        //third row: Exit and Login buttons
-        JButton exitButton = new JButton("Exit");
-        loginPanel.add(exitButton);
+        //third row: Login button
+        JLabel blankLabel = new JLabel("");
+        loginPanel.add(blankLabel);
+
         JButton loginButton = new JButton("Login");
-        loginPanel.add(loginButton);
-
-        exitButton.addActionListener(e -> closeDialog());
-
         loginButton.addActionListener(e ->{
+            LockoutChecker.lastClick = System.currentTimeMillis();
             if("user".equals(usernameField.getText()) && "pass".equals(new String(passwordField.getPassword()))){
                 authenticated = true;
                 closeDialog();
@@ -65,6 +63,7 @@ public class LoginDialog extends JDialog {
                 JOptionPane.showMessageDialog(this, "Username or Password is incorrect, please try again.", "Login Failed", JOptionPane.WARNING_MESSAGE);
             }
         });
+        loginPanel.add(loginButton);
 
         return loginPanel;
     }

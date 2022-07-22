@@ -7,6 +7,9 @@ public class AlexaAdminApp {
     public static void main(String[] args) {
 
         SwingUtilities.invokeLater(() -> {
+            LockoutChecker lockoutChecker = new LockoutChecker();
+            lockoutChecker.startLockoutThread();
+
             LoginDialog loginDialog = new LoginDialog();
             loginDialog.setVisible(true);
 

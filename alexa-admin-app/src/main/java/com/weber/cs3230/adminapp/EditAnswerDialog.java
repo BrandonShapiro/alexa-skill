@@ -42,11 +42,15 @@ public class EditAnswerDialog extends JDialog {
         lowerHalf.setBorder(new EmptyBorder(10,50,10,50));
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e-> closeDialog());
+        cancelButton.addActionListener(e-> {
+            LockoutChecker.lastClick = System.currentTimeMillis();
+            closeDialog();
+        });
         lowerHalf.add(cancelButton);
 
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(e->{
+            LockoutChecker.lastClick = System.currentTimeMillis();
             answer.setName(answerField.getText());
             answer.setDateAdded(String.valueOf(LocalDate.now()));
             closeDialog();

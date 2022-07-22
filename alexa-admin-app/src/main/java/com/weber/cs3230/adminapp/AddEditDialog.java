@@ -85,6 +85,7 @@ public class AddEditDialog extends JDialog {
         actionPanel.setBorder(new EmptyBorder(10,30,10,30));
         JButton addAnswerButton = new JButton("Add New Answer");
         addAnswerButton.addActionListener(e->{
+            LockoutChecker.lastClick = System.currentTimeMillis();
             EditAnswerDialog editAnswerDialog = new EditAnswerDialog();
             editAnswerDialog.setVisible(true);
 
@@ -94,6 +95,7 @@ public class AddEditDialog extends JDialog {
 
         JButton deleteAnswerButton = new JButton("Delete Answer");
         deleteAnswerButton.addActionListener(e->{
+            LockoutChecker.lastClick = System.currentTimeMillis();
             int row = table.getSelectedRow();
             if(row < 0){
                 return;
@@ -104,6 +106,7 @@ public class AddEditDialog extends JDialog {
 
         JButton editRowButton = new JButton("Edit Answer");
         editRowButton.addActionListener(e->{
+            LockoutChecker.lastClick = System.currentTimeMillis();
             int row = table.getSelectedRow();
             if(row < 0){
                 return;
@@ -125,10 +128,14 @@ public class AddEditDialog extends JDialog {
         savePanel.setBorder(new EmptyBorder(10,50,20,50));
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e-> closeDialog());
+        cancelButton.addActionListener(e-> {
+            LockoutChecker.lastClick = System.currentTimeMillis();
+            closeDialog();
+        });
 
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(e->{
+            LockoutChecker.lastClick = System.currentTimeMillis();
             intent.setName(intentNameField.getText());
             intent.setDateAdded(String.valueOf(LocalDate.now()));
             closeDialog();
