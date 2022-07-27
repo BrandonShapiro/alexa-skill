@@ -18,17 +18,22 @@ public class AlexaAdminMainPanel extends JPanel {
         super.setLayout(new BorderLayout());
         super.setBorder(new EmptyBorder(10,30,10,30));
 
-        JLabel header = new JLabel("Brandon's Alexa Admin Utility");
-        header.setBorder(new EmptyBorder(0, 0,20,0));
-        header.setFont(new Font("Serif", Font.BOLD, 20));
-
-        add(header, BorderLayout.PAGE_START);
-        header.setHorizontalAlignment(JLabel.CENTER);
-
+        add(createHeaderPanel(), BorderLayout.PAGE_START);
         add(createTablePanel(), BorderLayout.CENTER);
         add(createButtonPanel(), BorderLayout.PAGE_END);
     }
 
+    private JComponent createHeaderPanel(){
+
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        JLabel header = new JLabel("Brandon's Alexa Admin Utility");
+        header.setBorder(new EmptyBorder(0, 0,20,0));
+        header.setFont(new Font("Serif", Font.BOLD, 20));
+        header.setHorizontalAlignment(JLabel.CENTER);
+        headerPanel.add(header, BorderLayout.PAGE_START);
+
+        return headerPanel;
+    }
     private JComponent createTablePanel() {
 
         intentList.add(new Intent("top_scorer", "2022-06-15"));
@@ -66,7 +71,7 @@ public class AlexaAdminMainPanel extends JPanel {
     }
 
     private JComponent createButtonPanel() {
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 3));
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 3));
 
         JButton addRowButton = new JButton("Add New Intent");
         addRowButton.addActionListener(e->{
@@ -99,9 +104,19 @@ public class AlexaAdminMainPanel extends JPanel {
             updateTableData();
         });
 
+        JButton viewMetricButton = new JButton("View Metrics");
+        viewMetricButton.addActionListener(e->{
+            ViewMetricDialog viewMetricDialog = new ViewMetricDialog();
+            viewMetricDialog.setVisible(true);
+        });
+
         buttonPanel.add(addRowButton);
         buttonPanel.add(editRowButton);
         buttonPanel.add(deleteRowButton);
+
+        buttonPanel.add(new JLabel());
+        buttonPanel.add(viewMetricButton);
+        buttonPanel.add(new JLabel());
 
         return buttonPanel;
     }

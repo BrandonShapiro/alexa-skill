@@ -6,16 +6,16 @@ import java.awt.*;
 import java.time.LocalDate;
 
 public class EditAnswerDialog extends JDialog {
-    private final Intent answer;
+    private final IntentAnswer answer;
     private JTextField answerField;
 
     //for adding new answer
     public EditAnswerDialog(){
-        this(new Intent());
+        this(new IntentAnswer());
     }
 
     //for editing existing answer
-    public EditAnswerDialog(Intent answer){
+    public EditAnswerDialog(IntentAnswer answer){
         this.answer = answer;
         setPreferredSize(new Dimension(650, 150));
         setModalityType(ModalityType.APPLICATION_MODAL);
@@ -63,7 +63,7 @@ public class EditAnswerDialog extends JDialog {
         return editAnswerPanel;
     }
 
-    public Intent getAnswer() {return answer;}
+    public IntentAnswer getAnswer() {return answer;}
 
     private void closeDialog(){
         setVisible(false);
