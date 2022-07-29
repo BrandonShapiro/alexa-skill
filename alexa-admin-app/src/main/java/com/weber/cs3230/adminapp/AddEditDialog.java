@@ -1,30 +1,37 @@
 package com.weber.cs3230.adminapp;
 
+import com.weber.cs3230.adminapp.api.ApiClient;
+import com.weber.cs3230.adminapp.dto.IntentAnswerList;
+import com.weber.cs3230.adminapp.dto.IntentDetail;
+import com.weber.cs3230.adminapp.dto.IntentAnswer;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AddEditDialog extends JDialog {
 
-    private final Intent intent;
+    private final IntentDetail intent;
     private JTextField intentNameField;
     private JTable table;
     private DefaultTableModel model;
-    private final java.util.List<IntentAnswer> answerList = new ArrayList<>();
+    private java.util.List<IntentAnswer> answerList = new ArrayList<>();
     private final String[] columnNames = {"Answer", "Date Added"};
+    private final boolean isEditing;
 
     //for ADDING NEW intent
     public AddEditDialog(){
-        this(new Intent());
+        this(new IntentDetail(), false);
     }
 
     //for EDITING EXISTING intent
-    public AddEditDialog(Intent intent) {
+    public AddEditDialog(IntentDetail intent){this(intent, true);}
+    public AddEditDialog(IntentDetail intent, Boolean isEditing) {
         this.intent = intent;
+        this.isEditing = isEditing;
         getAnswerList();
         setPreferredSize(new Dimension(500, 350));
         setModalityType(ModalityType.APPLICATION_MODAL);
@@ -32,7 +39,7 @@ public class AddEditDialog extends JDialog {
         pack();
     }
 
-    public Intent getIntent() {
+    public IntentDetail getIntent() {
         return intent;
     }
 
@@ -86,7 +93,7 @@ public class AddEditDialog extends JDialog {
         JButton addAnswerButton = new JButton("Add New Answer");
         addAnswerButton.addActionListener(e->{
             LockoutChecker.lastClick = System.currentTimeMillis();
-            EditAnswerDialog editAnswerDialog = new EditAnswerDialog();
+            EditAnswerDialog editAnswerDialog = new EditAnswerDialog(intent);
             editAnswerDialog.setVisible(true);
 
             answerList.add(editAnswerDialog.getAnswer());
@@ -96,12 +103,28 @@ public class AddEditDialog extends JDialog {
         JButton deleteAnswerButton = new JButton("Delete Answer");
         deleteAnswerButton.addActionListener(e->{
             LockoutChecker.lastClick = System.currentTimeMillis();
-            int row = table.getSelectedRow();
-            if(row < 0){
-                return;
-            }
-            answerList.remove(row);
-            updateTableData();
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            SwingWorker<Object, Object> worker = new SwingWorker<>() {
+                @Override
+                protected Object doInBackground(){
+                    int row = table.getSelectedRow();
+                    IntentAnswer deleteAnswer = answerList.get(row);
+
+                    new ApiClient().deleteAnswer(intent.getIntentID(), deleteAnswer.getAnswerID());
+                    return true;
+                }
+                @Override
+                protected void done(){
+                    setCursor(Cursor.getDefaultCursor());
+                    int row = table.getSelectedRow();
+                    if(row < 0){
+                        return;
+                    }
+                    answerList.remove(row);
+                    updateTableData();
+                }
+            };
+            worker.execute();
         });
 
         JButton editRowButton = new JButton("Edit Answer");
@@ -111,7 +134,7 @@ public class AddEditDialog extends JDialog {
             if(row < 0){
                 return;
             }
-            EditAnswerDialog editAnswerDialog = new EditAnswerDialog(answerList.get(row));
+            EditAnswerDialog editAnswerDialog = new EditAnswerDialog(intent, answerList.get(row));
             editAnswerDialog.setVisible(true);
 
             updateTableData();
@@ -135,10 +158,29 @@ public class AddEditDialog extends JDialog {
 
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(e->{
-            LockoutChecker.lastClick = System.currentTimeMillis();
-            intent.setName(intentNameField.getText());
-            intent.setDateAdded(String.valueOf(LocalDate.now()));
-            closeDialog();
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            final String newIntentName = intentNameField.getText();
+            SwingWorker<Object, Object> worker = new SwingWorker<>() {
+                @Override
+                protected Object doInBackground(){
+                    ApiClient apiClient = new ApiClient();
+                    if(isEditing){
+                        apiClient.updateIntent(intent.getIntentID(), newIntentName);
+                    }else{
+                        apiClient.saveNewIntent(newIntentName);
+                    }
+                    return true;
+                }
+                @Override
+                protected void done(){
+                    setCursor(Cursor.getDefaultCursor());
+                    LockoutChecker.lastClick = System.currentTimeMillis();
+                    intent.setName(newIntentName);
+                    intent.setDateAdded(String.valueOf(LocalDate.now()));
+                    closeDialog();
+                }
+            };
+            worker.execute();
         });
 
         savePanel.add(cancelButton);
@@ -148,68 +190,32 @@ public class AddEditDialog extends JDialog {
     }
 
     public void getAnswerList() {
-
-        switch (intent.getName()){
-            case "top_scorer":
-                answerList.add(new IntentAnswer("Mohammed Salah was the top scorer.", "2022-06-15"));
-                answerList.add(new IntentAnswer("Mo Salah scored 22 goals.", "2022-06-15"));
-                answerList.add(new IntentAnswer("Salah had the most with 22 goals.", "2022-06-15"));
-                break;
-            case "coach":
-                answerList.add(new IntentAnswer("Jurgen Klopp is their head coach.", "2022-06-15"));
-                answerList.add(new IntentAnswer("The current head coach is Jurgen Klopp.", "2022-06-15"));
-                answerList.add(new IntentAnswer("Liverpool's coach is Jurgen Klopp.", "2022-06-15"));
-                break;
-            case "color":
-                answerList.add(new IntentAnswer("Liverpool's main color is Red.", "2022-06-15"));
-                answerList.add(new IntentAnswer("Their colors are Red, Green, and Gold.", "2022-06-15"));
-                answerList.add(new IntentAnswer("Liverpool's home color is always Red.", "2022-06-15"));
-                break;
-            case "founded":
-                answerList.add(new IntentAnswer("LFC was founded on June 3, 1892.", "2022-06-15"));
-                answerList.add(new IntentAnswer("June 3, 1892", "2022-06-15"));
-                answerList.add(new IntentAnswer("Liverpool was founded in 1892 on June 3rd", "2022-06-15"));
-                break;
-            case "goal_amount":
-                answerList.add(new IntentAnswer("Liverpool scored 139 goals across all competitions", "2022-06-15"));
-                answerList.add(new IntentAnswer("They set their new record high of 139 goals in a single season.", "2022-06-15"));
-                answerList.add(new IntentAnswer("139 goals were scored by Liverpool this year", "2022-06-15"));
-                break;
-            case "best_team":
-                answerList.add(new IntentAnswer("Liverpool FC are the top team", "2022-06-15"));
-                answerList.add(new IntentAnswer("The best team is Liverpool!", "2022-06-15"));
-                answerList.add(new IntentAnswer("Liverpool of course!", "2022-06-15"));
-                break;
-            case "motto":
-                answerList.add(new IntentAnswer("YNWA - You'll Never Walk Alone","2022-06-15"));
-                answerList.add(new IntentAnswer("Liverpool's motto is You'll Never Walk Alone","2022-06-15"));
-                answerList.add(new IntentAnswer("You'll Never Walk Alone was adopted as their motto prior to 1982.","2022-06-15"));
-                break;
-            case "rival":
-                answerList.add(new IntentAnswer("Everton is Liverpool's biggest rival.","2022-06-15"));
-                answerList.add(new IntentAnswer("The rivalry between Liverpool and Everton is unmatched.","2022-06-15"));
-                answerList.add(new IntentAnswer("Everton, who also reside in Merseyside, are Liverpool's rival.","2022-06-15"));
-                break;
-            case "titles":
-                answerList.add(new IntentAnswer("Liverpool has won the title 19 times.","2022-06-15"));
-                answerList.add(new IntentAnswer("Liverpool have achieved 19 league titles.","2022-06-15"));
-                answerList.add(new IntentAnswer("With their most recent win in 2019, Liverpool have won the league 19 times.","2022-06-15"));
-                break;
-            case "best_player":
-                answerList.add(new IntentAnswer("Mohammed Salah","2022-06-15"));
-                answerList.add(new IntentAnswer("Trent Alexander Arnold","2022-06-15"));
-                answerList.add(new IntentAnswer("Virgil Van Dijk","2022-06-15"));
-                break;
-            default:
-                break;
-        }
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        SwingWorker<IntentAnswerList, Object> worker = new SwingWorker<>() {
+            @Override
+            protected IntentAnswerList doInBackground(){
+                return new ApiClient().getAnswers(intent.getIntentID());
+            }
+            @Override
+            protected void done(){
+                setCursor(Cursor.getDefaultCursor());
+                try {
+                    answerList = get().getAnswers();
+                    updateTableData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error getting answers for Intent", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        };
+        worker.execute();
     }
 
     private Object[][] getTableData() {
         java.util.List<Object[]> rows = new ArrayList<>();
         for(IntentAnswer answer: answerList){
             Object[] newRow = new Object[2];
-            newRow[0] = answer.getName();
+            newRow[0] = answer.getText();
             newRow[1] = answer.getDateAdded();
             rows.add(newRow);
         }

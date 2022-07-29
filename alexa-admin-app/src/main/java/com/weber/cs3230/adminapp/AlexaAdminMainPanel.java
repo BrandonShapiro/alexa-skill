@@ -1,5 +1,7 @@
 package com.weber.cs3230.adminapp;
 
+import com.weber.cs3230.adminapp.api.ApiClient;
+import com.weber.cs3230.adminapp.dto.IntentDetail;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -7,14 +9,16 @@ import java.awt.*;
 import java.util.ArrayList;
 
 
+
 public class AlexaAdminMainPanel extends JPanel {
 
     private JTable table;
     private DefaultTableModel model;
-    private final java.util.List<Intent> intentList = new ArrayList<>();
+    private final java.util.List<IntentDetail> intentList;
     private final String[] columnNames = {"Intent Name", "Date Added"};
 
-    AlexaAdminMainPanel() {
+    AlexaAdminMainPanel(java.util.List<IntentDetail> intentList) {
+        this.intentList = intentList;
         super.setLayout(new BorderLayout());
         super.setBorder(new EmptyBorder(10,30,10,30));
 
@@ -36,17 +40,6 @@ public class AlexaAdminMainPanel extends JPanel {
     }
     private JComponent createTablePanel() {
 
-        intentList.add(new Intent("top_scorer", "2022-06-15"));
-        intentList.add(new Intent("coach", "2022-06-15"));
-        intentList.add(new Intent("color", "2022-06-15"));
-        intentList.add(new Intent("founded", "2022-06-15"));
-        intentList.add(new Intent("goal_amount", "2022-06-15"));
-        intentList.add(new Intent("best_team", "2022-06-15"));
-        intentList.add(new Intent("motto", "2022-06-15"));
-        intentList.add(new Intent("rival", "2022-06-15"));
-        intentList.add(new Intent("titles", "2022-06-15"));
-        intentList.add(new Intent("best_player", "2022-06-15"));
-
         model = new DefaultTableModel(getTableData(), columnNames);
         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -57,7 +50,7 @@ public class AlexaAdminMainPanel extends JPanel {
 
     private Object[][] getTableData() {
         java.util.List<Object[]> rows = new ArrayList<>();
-        for(Intent intent: intentList){
+        for(IntentDetail intent: intentList){
             Object[] newRow = new Object[2];
             newRow[0] = intent.getName();
             newRow[1] = intent.getDateAdded();
@@ -75,6 +68,7 @@ public class AlexaAdminMainPanel extends JPanel {
 
         JButton addRowButton = new JButton("Add New Intent");
         addRowButton.addActionListener(e->{
+            LockoutChecker.lastClick = System.currentTimeMillis();
             AddEditDialog addEditDialog = new AddEditDialog();
             addEditDialog.setVisible(true);
 
@@ -84,16 +78,34 @@ public class AlexaAdminMainPanel extends JPanel {
 
         JButton deleteRowButton = new JButton("Delete Intent");
         deleteRowButton.addActionListener(e->{
-            int row = table.getSelectedRow();
-            if(row < 0){
-                return;
-            }
-            intentList.remove(row);
-            updateTableData();
+            LockoutChecker.lastClick = System.currentTimeMillis();
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            SwingWorker<Object, Object> worker = new SwingWorker<>() {
+                @Override
+                protected Object doInBackground(){
+                    int row = table.getSelectedRow();
+                    IntentDetail deleteIntent = intentList.get(row);
+
+                   new ApiClient().deleteIntent(deleteIntent.getIntentID());
+                    return true;
+                }
+                @Override
+                protected void done(){
+                    setCursor(Cursor.getDefaultCursor());
+                    int row = table.getSelectedRow();
+                    if(row < 0){
+                        return;
+                    }
+                    intentList.remove(row);
+                    updateTableData();
+                }
+            };
+            worker.execute();
         });
 
         JButton editRowButton = new JButton("Edit Intent");
         editRowButton.addActionListener(e->{
+            LockoutChecker.lastClick = System.currentTimeMillis();
             int row = table.getSelectedRow();
             if(row < 0){
                 return;
@@ -106,6 +118,7 @@ public class AlexaAdminMainPanel extends JPanel {
 
         JButton viewMetricButton = new JButton("View Metrics");
         viewMetricButton.addActionListener(e->{
+            LockoutChecker.lastClick = System.currentTimeMillis();
             ViewMetricDialog viewMetricDialog = new ViewMetricDialog();
             viewMetricDialog.setVisible(true);
         });

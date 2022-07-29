@@ -1,5 +1,7 @@
 package com.weber.cs3230.adminapp;
 
+import com.weber.cs3230.adminapp.api.ApiClient;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -53,18 +55,35 @@ public class LoginDialog extends JDialog {
         loginPanel.add(blankLabel);
 
         JButton loginButton = new JButton("Login");
-        loginButton.addActionListener(e ->{
-            LockoutChecker.lastClick = System.currentTimeMillis();
-            if("user".equals(usernameField.getText()) && "pass".equals(new String(passwordField.getPassword()))){
-                authenticated = true;
-                closeDialog();
-            }
-            else{
-                JOptionPane.showMessageDialog(this, "Username or Password is incorrect, please try again.", "Login Failed", JOptionPane.WARNING_MESSAGE);
-            }
-        });
         loginPanel.add(loginButton);
 
+        loginButton.addActionListener(e ->{
+            LockoutChecker.lastClick = System.currentTimeMillis();
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            SwingWorker<Boolean, Boolean> worker = new SwingWorker<>(){
+                @Override
+                protected Boolean doInBackground(){
+                    return new ApiClient().validateCreds(usernameField.getText(), new String(passwordField.getPassword()));
+                }
+                @Override
+                protected void done(){
+                    setCursor(Cursor.getDefaultCursor());
+                    try{
+                        boolean credsValid = get();
+                        if(credsValid){
+                            authenticated = true;
+                            closeDialog();
+                        }else{
+                            JOptionPane.showMessageDialog(LoginDialog.this, "Username or Password is incorrect. Please try again.", "Login Failed", JOptionPane.WARNING_MESSAGE);
+                        }
+                    }catch(Exception e){
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(LoginDialog.this, "Login Failed. Please try again.", "Login Error.", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            };
+            worker.execute();
+        });
         return loginPanel;
     }
 }
