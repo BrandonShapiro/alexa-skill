@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.time.LocalDate;
+import java.util.concurrent.ExecutionException;
 
 public class EditAnswerDialog extends JDialog {
     private final IntentAnswer answer;
@@ -62,16 +63,15 @@ public class EditAnswerDialog extends JDialog {
         saveButton.addActionListener(e->{
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             final String newAnswer = answerField.getText();
-            SwingWorker<Object, Object> worker = new SwingWorker<>() {
+            SwingWorker<IntentAnswer, Object> worker = new SwingWorker<>() {
                 @Override
-                protected Object doInBackground(){
+                protected IntentAnswer doInBackground(){
                     ApiClient apiClient = new ApiClient();
                     if(isEditing){
-                        apiClient.updateAnswer(intent.getIntentID(), answer.getAnswerID(), newAnswer);
-                    }else{
-                        apiClient.saveNewAnswer(intent.getIntentID(), newAnswer);
+                        return apiClient.updateAnswer(intent.getIntentID(), answer.getAnswerID(), newAnswer);
+                    }else {
+                        return apiClient.saveNewAnswer(intent.getIntentID(), newAnswer);
                     }
-                    return true;
                 }
                 @Override
                 protected void done(){
@@ -79,6 +79,12 @@ public class EditAnswerDialog extends JDialog {
                     LockoutChecker.lastClick = System.currentTimeMillis();
                     answer.setText(newAnswer);
                     answer.setDateAdded(String.valueOf(LocalDate.now()));
+                    try {
+                        answer.setAnswerID(get().getAnswerID());
+                        //System.out.println("New answer ID:" + get().getAnswerID());
+                    } catch (Exception ex) {
+                        System.out.println("Unable to get new answer ID");
+                    }
                     closeDialog();
                 }
             };

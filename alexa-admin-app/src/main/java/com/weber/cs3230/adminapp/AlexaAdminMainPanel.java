@@ -79,11 +79,14 @@ public class AlexaAdminMainPanel extends JPanel {
         JButton deleteRowButton = new JButton("Delete Intent");
         deleteRowButton.addActionListener(e->{
             LockoutChecker.lastClick = System.currentTimeMillis();
+            int row = table.getSelectedRow();
+            if(row < 0){
+                return;
+            }
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             SwingWorker<Object, Object> worker = new SwingWorker<>() {
                 @Override
                 protected Object doInBackground(){
-                    int row = table.getSelectedRow();
                     IntentDetail deleteIntent = intentList.get(row);
 
                    new ApiClient().deleteIntent(deleteIntent.getIntentID());
@@ -92,10 +95,7 @@ public class AlexaAdminMainPanel extends JPanel {
                 @Override
                 protected void done(){
                     setCursor(Cursor.getDefaultCursor());
-                    int row = table.getSelectedRow();
-                    if(row < 0){
-                        return;
-                    }
+
                     intentList.remove(row);
                     updateTableData();
                 }

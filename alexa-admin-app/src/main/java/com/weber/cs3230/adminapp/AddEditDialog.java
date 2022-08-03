@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class AddEditDialog extends JDialog {
 
@@ -103,6 +104,10 @@ public class AddEditDialog extends JDialog {
         JButton deleteAnswerButton = new JButton("Delete Answer");
         deleteAnswerButton.addActionListener(e->{
             LockoutChecker.lastClick = System.currentTimeMillis();
+            int row = table.getSelectedRow();
+            if(row < 0){
+                return;
+            }
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             SwingWorker<Object, Object> worker = new SwingWorker<>() {
                 @Override
@@ -116,10 +121,7 @@ public class AddEditDialog extends JDialog {
                 @Override
                 protected void done(){
                     setCursor(Cursor.getDefaultCursor());
-                    int row = table.getSelectedRow();
-                    if(row < 0){
-                        return;
-                    }
+
                     answerList.remove(row);
                     updateTableData();
                 }
@@ -160,16 +162,15 @@ public class AddEditDialog extends JDialog {
         saveButton.addActionListener(e->{
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             final String newIntentName = intentNameField.getText();
-            SwingWorker<Object, Object> worker = new SwingWorker<>() {
+            SwingWorker<IntentDetail, Object> worker = new SwingWorker<>() {
                 @Override
-                protected Object doInBackground(){
+                protected IntentDetail doInBackground(){
                     ApiClient apiClient = new ApiClient();
                     if(isEditing){
-                        apiClient.updateIntent(intent.getIntentID(), newIntentName);
+                        return apiClient.updateIntent(intent.getIntentID(), newIntentName);
                     }else{
-                        apiClient.saveNewIntent(newIntentName);
+                        return apiClient.saveNewIntent(newIntentName);
                     }
-                    return true;
                 }
                 @Override
                 protected void done(){
@@ -177,6 +178,12 @@ public class AddEditDialog extends JDialog {
                     LockoutChecker.lastClick = System.currentTimeMillis();
                     intent.setName(newIntentName);
                     intent.setDateAdded(String.valueOf(LocalDate.now()));
+                    try {
+                        intent.setIntentID(get().getIntentID());
+                        //System.out.println("intent ID:" + get().getIntentID());
+                    } catch (Exception ex) {
+                        System.out.println("Unable to get new Intent ID.");
+                    }
                     closeDialog();
                 }
             };
