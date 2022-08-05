@@ -21,7 +21,7 @@ public class LoginDialog extends JDialog {
     LoginDialog(){
         super.setLayout(new BorderLayout());
 
-        setPreferredSize(new Dimension(300, 150));
+        setPreferredSize(new Dimension(450, 200));
         setModalityType(ModalityType.APPLICATION_MODAL);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
@@ -50,12 +50,13 @@ public class LoginDialog extends JDialog {
         JPasswordField passwordField = new JPasswordField();
         loginPanel.add(passwordField);
 
-        //third row: Login button
-        JLabel blankLabel = new JLabel("");
-        loginPanel.add(blankLabel);
-
+        //third row: Login/Cancel buttons
+        JButton cancelButton = new JButton("Cancel");
+        loginPanel.add(cancelButton);
         JButton loginButton = new JButton("Login");
         loginPanel.add(loginButton);
+
+        cancelButton.addActionListener(e->closeDialog());
 
         loginButton.addActionListener(e ->{
             LockoutChecker.lastClick = System.currentTimeMillis();

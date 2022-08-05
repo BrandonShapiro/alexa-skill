@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.time.LocalDate;
-import java.util.concurrent.ExecutionException;
 
 public class EditAnswerDialog extends JDialog {
     private final IntentAnswer answer;
@@ -28,7 +27,7 @@ public class EditAnswerDialog extends JDialog {
         this.answer = answer;
         this.intent = intent;
         this.isEditing = isEditing;
-        setPreferredSize(new Dimension(650, 150));
+        setPreferredSize(new Dimension(800, 150));
         setModalityType(ModalityType.APPLICATION_MODAL);
         add(getEditAnswerPanel());
         pack();

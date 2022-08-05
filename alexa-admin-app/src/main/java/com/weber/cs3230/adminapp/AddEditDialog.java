@@ -11,7 +11,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class AddEditDialog extends JDialog {
 
@@ -33,11 +32,11 @@ public class AddEditDialog extends JDialog {
     public AddEditDialog(IntentDetail intent, Boolean isEditing) {
         this.intent = intent;
         this.isEditing = isEditing;
-        getAnswerList();
-        setPreferredSize(new Dimension(500, 350));
+        setPreferredSize(new Dimension(800, 450));
         setModalityType(ModalityType.APPLICATION_MODAL);
         add(getAddEditPanel());
         pack();
+        getAnswerList();
     }
 
     public IntentDetail getIntent() {
@@ -48,16 +47,18 @@ public class AddEditDialog extends JDialog {
         model.setDataVector(getTableData(), columnNames);
     }
     private JComponent getAddEditPanel(){
-        JPanel addEditPanel = new JPanel(new GridLayout(4,1));
+        JPanel addEditPanel = new JPanel(new BorderLayout());
 
         //top panel: label and text field for editing intent name
-        addEditPanel.add(getTopPanel());
+        addEditPanel.add(getTopPanel(), BorderLayout.PAGE_START);
         //table panel: table with intent answers
-        addEditPanel.add(getTablePanel());
-        //action panel: add, edit, delete answer
-        addEditPanel.add(getActionPanel());
-        //save panel: cancel and save button
-        addEditPanel.add(getSavePanel());
+        addEditPanel.add(getTablePanel(), BorderLayout.CENTER);
+        //Button Panel, contains all 5 buttons
+        JPanel buttonPanel = new JPanel(new GridLayout(2,1));
+        buttonPanel.add(getActionPanel());
+        buttonPanel.add(getSavePanel());
+        addEditPanel.add(buttonPanel, BorderLayout.PAGE_END);
+
 
         return addEditPanel;
     }
@@ -82,8 +83,8 @@ public class AddEditDialog extends JDialog {
         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
         table.setFillsViewportHeight(true);
-        table.getColumnModel().getColumn(0).setPreferredWidth(325);
-        table.getColumnModel().getColumn(1).setPreferredWidth(25);
+        table.getColumnModel().getColumn(0).setPreferredWidth(650);
+        table.getColumnModel().getColumn(1).setPreferredWidth(50);
         scrollPane.setVisible(true);
         return scrollPane;
     }
@@ -150,7 +151,7 @@ public class AddEditDialog extends JDialog {
     }
     private JPanel getSavePanel(){
         JPanel savePanel = new JPanel(new GridLayout(1,2));
-        savePanel.setBorder(new EmptyBorder(10,50,20,50));
+        savePanel.setBorder(new EmptyBorder(10,30,10,30));
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e-> {

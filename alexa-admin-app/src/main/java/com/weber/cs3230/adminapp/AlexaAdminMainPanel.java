@@ -2,12 +2,13 @@ package com.weber.cs3230.adminapp;
 
 import com.weber.cs3230.adminapp.api.ApiClient;
 import com.weber.cs3230.adminapp.dto.IntentDetail;
+import com.weber.cs3230.adminapp.dto.MetricDetailList;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
-
 
 
 public class AlexaAdminMainPanel extends JPanel {
@@ -119,8 +120,28 @@ public class AlexaAdminMainPanel extends JPanel {
         JButton viewMetricButton = new JButton("View Metrics");
         viewMetricButton.addActionListener(e->{
             LockoutChecker.lastClick = System.currentTimeMillis();
-            ViewMetricDialog viewMetricDialog = new ViewMetricDialog();
-            viewMetricDialog.setVisible(true);
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+            SwingWorker<MetricDetailList, Object> worker = new SwingWorker<>() {
+                @Override
+                protected MetricDetailList doInBackground(){
+                    return new ApiClient().getMetrics();
+                }
+                @Override
+                protected void done(){
+                    setCursor(Cursor.getDefaultCursor());
+
+                    try {
+                        ViewMetricDialog metricDialog = new ViewMetricDialog(get().getMetrics());
+                        metricDialog.setVisible(true);
+                    } catch (Exception ex) {
+                        ex.getCause();
+                        ex.printStackTrace();
+                        System.out.println("Unable to get metrics list.");
+                    }
+                }
+            };
+            worker.execute();
         });
 
         buttonPanel.add(addRowButton);

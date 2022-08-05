@@ -27,6 +27,10 @@ public class ApiClient {
         return httpCommunicator.communicate("GET", baseUrl + "/intents", IntentDetailList.class);
     }
 
+    public MetricDetailList getMetrics() {
+        return httpCommunicator.communicate("GET", baseUrl + "/metrics", MetricDetailList.class);
+    }
+
     public IntentDetail saveNewIntent(String name) {
         IntentDetail intent = new IntentDetail();
         intent.setName(name);

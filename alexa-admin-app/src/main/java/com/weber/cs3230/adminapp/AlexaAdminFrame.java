@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class AlexaAdminFrame extends JFrame{
     AlexaAdminFrame(java.util.List<IntentDetail> intentList){
-        setPreferredSize(new Dimension(500, 350));
+        setPreferredSize(new Dimension(800, 450));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(new AlexaAdminMainPanel(intentList));
         pack();

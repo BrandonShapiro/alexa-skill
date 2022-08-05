@@ -72,6 +72,33 @@ public class AlexaDAO {
         }
     }
 
+    public MetricDetailList getMetricDetailList() {
+        log.info("Getting full metric list.");
+
+        final MetricDetailList metricDetailList = new MetricDetailList();
+        final String sql = "SELECT eventname, count(*) AS eventcount, MAX(dtstamp) AS mostrecentdtstamp\n" +
+                "FROM axmetrics\n" +
+                "WHERE appname = ?\n" +
+                "GROUP BY eventname";
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, "brandon_alexa_app");
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    final MetricDetail metric = new MetricDetail();
+                    metric.setCount(rs.getLong("eventcount"));
+                    metric.setEventName(rs.getString("eventname"));
+                    metric.setMostRecentDate(parseDBDate(rs.getTimestamp("mostrecentdtstamp")));
+                    metricDetailList.getMetrics().add(metric);
+                }
+            }
+            return metricDetailList;
+        } catch (ClassNotFoundException|SQLException e) {
+            throw new RuntimeException("Failed to get metric list", e);
+        }
+    }
+
     public IntentDetailList getIntentList() {
         log.info("Getting full intent list");
 

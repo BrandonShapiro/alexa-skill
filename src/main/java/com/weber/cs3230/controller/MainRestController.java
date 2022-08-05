@@ -41,6 +41,9 @@ public class MainRestController {
         return alexaDAO.getIntentList();
     }
 
+    @RequestMapping(value = "/metrics", method = RequestMethod.GET)
+    public MetricDetailList getMetrics() {return alexaDAO.getMetricDetailList();}
+
     @RequestMapping(value = "/intent", method = RequestMethod.POST)
     public IntentDetail saveNewIntent(@RequestBody IntentDetail intent) {
         return alexaDAO.saveNewIntent(intent);
