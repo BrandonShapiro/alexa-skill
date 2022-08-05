@@ -12,7 +12,8 @@ public enum AlexaIntent {
     BEST_PLAYER("best_player"),
     MOTTO("motto"),
     COLOR("color"),
-    FOUNDED("founded");
+    FOUNDED("founded"),
+    EMAIL("email");
 
 
     private final String intentName;
