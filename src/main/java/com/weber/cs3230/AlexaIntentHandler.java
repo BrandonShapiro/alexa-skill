@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Properties;
 import javax.mail.*;
@@ -71,7 +73,7 @@ public class AlexaIntentHandler {
         }
 
         //implement JAVAMAIL
-        // Assuming you are sending email from through gmails smtp
+        // use gmail's free smtp
         String host = "smtp.gmail.com";
 
         // Get system properties
@@ -108,10 +110,10 @@ public class AlexaIntentHandler {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
             // Set Subject: header field
-            message.setSubject("This is the Subject Line!");
+            message.setSubject("Sent from Brandon Alexa App");
 
             // Now set the actual message
-            message.setText("This is actual message");
+            message.setText(content + "\n\n Sent from Brandon's Alexa App at " + LocalDateTime.now());
 
             System.out.println("sending...");
             // Send message
