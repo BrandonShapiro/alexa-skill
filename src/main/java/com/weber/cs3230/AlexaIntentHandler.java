@@ -17,8 +17,8 @@ import javax.mail.internet.MimeMessage;
 @Component
 public class AlexaIntentHandler {
     private final DBAnswerGenerator dbAnswerGenerator;
-    @Value("${mail.username}") private String mailUser;
-    @Value("${mail.password}") private String mailPass;
+    private final String mailUser = System.getenv("MAILUSER");
+    private final String mailPass = System.getenv("MAILPASS");
     @Autowired
     AlexaIntentHandler(DBAnswerGenerator dbAnswerGenerator){
         this.dbAnswerGenerator = dbAnswerGenerator;
