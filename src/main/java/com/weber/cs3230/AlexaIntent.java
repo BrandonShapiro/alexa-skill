@@ -13,7 +13,7 @@ public enum AlexaIntent {
     MOTTO("motto"),
     COLOR("color"),
     FOUNDED("founded"),
-    EMAIL("email");
+    SEND_EMAIL("send_email");
 
 
     private final String intentName;

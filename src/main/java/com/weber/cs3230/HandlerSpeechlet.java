@@ -1,6 +1,7 @@
 package com.weber.cs3230;
 
 import com.amazon.speech.json.SpeechletRequestEnvelope;
+import com.amazon.speech.slu.Intent;
 import com.amazon.speech.speechlet.*;
 import com.weber.cs3230.dto.Answer;
 import org.slf4j.Logger;
@@ -31,28 +32,31 @@ public class HandlerSpeechlet implements SpeechletV2 {
     }
     @Override
     public SpeechletResponse onIntent(SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
+        final Session session = requestEnvelope.getSession();
+        final Intent intent = requestEnvelope.getRequest().getIntent();
+
         try {
-            Answer answer = alexaIntentHandler.handleIntent(requestEnvelope.getRequest().getIntent().getName());
+            Answer answer = alexaIntentHandler.handleIntent(intent);
             String title = "LFC Trivia";
 
             if (answer != null) {
                 log.info("Returning normal response");
-                return alexaUtils.getNormalResponse(requestEnvelope.getSession(), title, answer.getText());
+                return alexaUtils.getNormalResponse(session, title, answer.getText());
             } else {
                 log.info("Returning unrecognized question response");
                 title = "I don't understand, please try again.";
-                return alexaUtils.getUnrecognizedResponse(requestEnvelope.getSession(), title, "Unrecognized");
+                return alexaUtils.getUnrecognizedResponse(session, title, "Unrecognized");
             }
         }catch(NoAvailableAnswerException e){
             String title = "No Answer Available";
             String text = "I know what you're saying, but I don't have the capacity to answer that yet.";
-            log.error("NoAvailableAnswerException thrown for intent: " + requestEnvelope.getRequest().getIntent().getName(), e);
-            return alexaUtils.getOnLaunchResponse(requestEnvelope.getSession(), title, text);
+            log.error("NoAvailableAnswerException thrown for intent: " + intent.getName(), e);
+            return alexaUtils.getOnLaunchResponse(session, title, text);
         }catch(Exception e){
             String title = "Error occurred";
             String text = "An unknown error occurred, please try again.";
             log.error("Exception thrown", e);
-            return alexaUtils.getOnLaunchResponse(requestEnvelope.getSession(), title, text);
+            return alexaUtils.getOnLaunchResponse(session, title, text);
         }
     }
 }
