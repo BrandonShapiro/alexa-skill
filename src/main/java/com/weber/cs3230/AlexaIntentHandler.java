@@ -38,7 +38,7 @@ public class AlexaIntentHandler {
                 final String recipient = slots.get("Name").getValue();
                 final String emailContent = slots.get("Content").getValue();
                 //send email
-                sendEmail(recipient, emailContent);
+                //sendEmail(recipient, emailContent);
                 //return confirmation text to user (answer)
                 return new Answer("I sent your email.");
             }
