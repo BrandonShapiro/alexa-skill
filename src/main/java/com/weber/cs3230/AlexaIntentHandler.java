@@ -38,9 +38,8 @@ public class AlexaIntentHandler {
                 final String recipient = slots.get("Name").getValue();
                 final String emailContent = slots.get("Content").getValue();
                 //send email
-                sendEmail(recipient, emailContent);
+                return sendEmail(recipient, emailContent);
                 //return confirmation text to user (answer)
-                return new Answer("I sent your email.");
             }
             //all other intents return an answer from database
             else {
@@ -54,7 +53,7 @@ public class AlexaIntentHandler {
         }
     }
 
-    void sendEmail(String name, String content){
+    Answer sendEmail(String name, String content){
 
         String recipient;
         switch (name.toLowerCase()) {
@@ -85,7 +84,7 @@ public class AlexaIntentHandler {
         properties.put("mail.smtp.ssl.enable", "true");
         properties.put("mail.smtp.auth", "true");
 
-        // Get the Session object.// and pass username and password
+        // Get the Session object and pass username and password
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
 
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -93,7 +92,6 @@ public class AlexaIntentHandler {
                 return new PasswordAuthentication(mailUser, mailPass);
 
             }
-
         });
 
         // Used to debug SMTP issues
@@ -119,8 +117,10 @@ public class AlexaIntentHandler {
             // Send message
             Transport.send(message);
             System.out.println("Sent message successfully....");
+            return new Answer("Message sent successfully");
         } catch (MessagingException mex) {
             mex.printStackTrace();
+            return new Answer("Something went wrong.");
         }
 
 
