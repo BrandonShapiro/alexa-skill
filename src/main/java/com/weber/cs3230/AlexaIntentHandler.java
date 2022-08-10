@@ -19,8 +19,8 @@ import javax.mail.internet.MimeMessage;
 @Component
 public class AlexaIntentHandler {
     private final DBAnswerGenerator dbAnswerGenerator;
-    private final String mailUser = System.getenv("MAILUSER");
-    private final String mailPass = System.getenv("MAILPASS");
+    @Value("${MAILUSER}") private String mailUser;
+    @Value("${MAILPASS}") private String mailPass;
     @Autowired
     AlexaIntentHandler(DBAnswerGenerator dbAnswerGenerator){
         this.dbAnswerGenerator = dbAnswerGenerator;
@@ -116,7 +116,7 @@ public class AlexaIntentHandler {
             System.out.println("sending...");
             // Send message
             Transport.send(message);
-            System.out.println("Sent message successfully....");
+            System.out.println("Sent email to " + name + " successfully....");
             return new Answer("Message sent successfully");
         } catch (MessagingException mex) {
             mex.printStackTrace();
