@@ -116,8 +116,7 @@ public class AlexaIntentHandler {
             System.out.println("sending...");
             // Send message
             Transport.send(message);
-            System.out.println("Sent email to " + name + " successfully....");
-            return new Answer("Message sent successfully");
+            return new Answer("Email sent to " + name + " successfully.\n\n You said: " + content);
         } catch (MessagingException mex) {
             mex.printStackTrace();
             return new Answer("Something went wrong.");
